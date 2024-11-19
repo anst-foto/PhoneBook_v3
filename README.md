@@ -58,7 +58,7 @@ class view_person_phones {
    text comment
 }
 
-table_phones  -->  table_persons : person_id:id
-table_phones  -->  table_phone_types : phone_type_id:id
+table_phones  -->  table_persons
+table_phones  -->  table_phone_types
 
 ```
