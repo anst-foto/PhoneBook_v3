@@ -41,12 +41,12 @@ public abstract class DataSourceBase
         return result;
     }
     
-    protected IEnumerable<T> FindById<T>(int id)
+    protected T FindById<T>(int id)
     {
         _db.Open();
         var tableName = DbName.TableNames[typeof(T)];
         var sql = $"SELECT * FROM {tableName} WHERE id = @id";
-        var result = _db.Query<T>(sql, new { @id = id });
+        var result = _db.QuerySingle<T>(sql, new { @id = id });
         _db.Close();
         
         return result;

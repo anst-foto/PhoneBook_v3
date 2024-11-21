@@ -2,7 +2,7 @@
 
 public class Phone
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
     public required int PersonId { get; set; }
     public required string Number { get; set; }
     public required int PhoneTypeId { get; set; }

@@ -2,6 +2,6 @@
 
 public class PhoneType
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
     public required string Type { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace PhoneBook_v3.DAL.Tables;
 
-public class TablePersons : DataSourceBase, ICUD<Person>, IFind<Person>
+public class TablePersons : DataSourceBase, ITable<Person>
 {
     public TablePersons(string connectionString) : base(connectionString)
     { }
@@ -40,7 +40,7 @@ public class TablePersons : DataSourceBase, ICUD<Person>, IFind<Person>
 
     #region IFind
 
-    public IEnumerable<Person> FindById(int id)
+    public Person FindById(int id)
     {
         return base.FindById<Person>(id);
     }

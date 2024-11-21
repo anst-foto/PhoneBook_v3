@@ -2,7 +2,7 @@
 
 namespace PhoneBook_v3.DAL.Tables;
 
-public class TablePhoneTypes : DataSourceBase, ICUD<PhoneType>, IFind<PhoneType>
+public class TablePhoneTypes : DataSourceBase, ITable<PhoneType>
 {
     public TablePhoneTypes(string connectionString) : base(connectionString)
     {
@@ -32,7 +32,7 @@ public class TablePhoneTypes : DataSourceBase, ICUD<PhoneType>, IFind<PhoneType>
     
     #region IFind
 
-    public IEnumerable<PhoneType> FindById(int id)
+    public PhoneType FindById(int id)
     {
         return base.FindById<PhoneType>(id);
     }
