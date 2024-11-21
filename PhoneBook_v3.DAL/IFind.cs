@@ -1,8 +1,8 @@
 ﻿namespace PhoneBook_v3.DAL;
 
-public interface IFind
+public interface IFind<out T>
 {
-    public void FindById(int id);
-    public void FindAllByField(string field, string value);
-    public void GetAll();
+    public IEnumerable<T> FindById(int id);
+    public IEnumerable<T> FindAllByField(string field, string value);
+    public IEnumerable<T> GetAll();
 }

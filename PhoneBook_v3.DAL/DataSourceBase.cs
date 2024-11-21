@@ -1,34 +1,67 @@
-﻿namespace PhoneBook_v3.DAL;
+﻿using Dapper;
+using Npgsql;
+using PhoneBook_v3.DAL.Tables;
 
-public abstract class DataSourceBase : ICUD, IFind
+namespace PhoneBook_v3.DAL;
+
+public abstract class DataSourceBase
 {
-    public bool Add()
+    private readonly NpgsqlConnection _db;
+
+    protected DataSourceBase(string connectionString)
     {
-        throw new NotImplementedException();
+        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+        
+        _db = new NpgsqlConnection(connectionString);
     }
 
-    public bool Update()
+    #region ICUD
+
+    protected bool Execute(string sql)
     {
-        throw new NotImplementedException();
+        _db.Open();
+        var result = _db.Execute(sql);
+        _db.Close();
+        
+        return result > 0;
     }
 
-    public bool Delete()
+    #endregion
+
+    #region IFind
+    
+    protected IEnumerable<T> FindByField<T>(string fieldName, string value)
     {
-        throw new NotImplementedException();
+        _db.Open();
+        var tableName = DbName.TableNames[typeof(T)];
+        var sql = $"SELECT * FROM {tableName} WHERE {fieldName} = @value";
+        var result = _db.Query<T>(sql, new { @value = value });
+        _db.Close();
+        
+        return result;
+    }
+    
+    protected IEnumerable<T> FindById<T>(int id)
+    {
+        _db.Open();
+        var tableName = DbName.TableNames[typeof(T)];
+        var sql = $"SELECT * FROM {tableName} WHERE id = @id";
+        var result = _db.Query<T>(sql, new { @id = id });
+        _db.Close();
+        
+        return result;
     }
 
-    public void FindById(int id)
+    protected IEnumerable<T> GetAll<T>()
     {
-        throw new NotImplementedException();
+        _db.Open();
+        var tableName = DbName.TableNames[typeof(T)];
+        var sql = $"SELECT * FROM {tableName}";
+        var result = _db.Query<T>(sql);
+        _db.Close();
+        
+        return result;
     }
-
-    public void FindAllByField(string field, string value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void GetAll()
-    {
-        throw new NotImplementedException();
-    }
+    
+    #endregion
 }

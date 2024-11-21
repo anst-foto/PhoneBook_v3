@@ -24,7 +24,7 @@ CREATE TABLE table_phone_types (
 CREATE TABLE table_phones (
     id SERIAL NOT NULL PRIMARY KEY,
     person_id INT NOT NULL,
-    phone TEXT NOT NULL,
+    number TEXT NOT NULL,
     phone_type_id INT NOT NULL,
     comment TEXT NULL,
     FOREIGN KEY (person_id) REFERENCES table_persons(id),
@@ -41,7 +41,7 @@ CREATE view view_person_phones AS
            table_persons.last_name AS last_name,
            table_persons.patronymic AS patronymic,
            table_phone_types.type AS phone_type,
-           table_phones.phone AS phone_number,
+           table_phones.number AS phone_number,
            table_phones.comment AS comment
     FROM table_phones
         JOIN table_persons
@@ -63,7 +63,7 @@ VALUES ('mobile'),
        ('home'),
        ('work');
 
-INSERT INTO table_phones (person_id, phone, phone_type_id, comment)
+INSERT INTO table_phones (person_id, number, phone_type_id, comment)
 VALUES (1, '+7(999)999-99-99', 1, NULL),
        (1, '+7(999)999-99-99', 2, 'test'),
        (2, '+7(999)999-99-99', 1, NULL),
@@ -75,3 +75,5 @@ VALUES (1, '+7(999)999-99-99', 1, NULL),
        (4, '+7(999)999-99-99', 3, 'test');
 
 SELECT * FROM view_person_phones;
+
+-- alter table test.table_phones rename column phone to number;
