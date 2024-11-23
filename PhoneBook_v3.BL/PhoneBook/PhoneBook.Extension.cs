@@ -1,4 +1,6 @@
-﻿namespace PhoneBook_v3.BL;
+﻿using PhoneBook_v3.BL.Models;
+
+namespace PhoneBook_v3.BL;
 
 public partial class PhoneBook
 {

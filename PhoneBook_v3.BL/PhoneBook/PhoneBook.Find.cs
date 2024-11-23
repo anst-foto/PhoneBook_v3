@@ -1,32 +1,31 @@
-﻿namespace PhoneBook_v3.BL;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using PhoneBook_v3.BL.Models;
+
+namespace PhoneBook_v3.BL;
 
 public partial class PhoneBook
 {
     public IEnumerable<Contact>? FindAllByName(string name)
     {
-        _dataSource.FindAllByField("name", name);
-        
-        return null;
+        var filter = Builders<Contact>.Filter.Eq(p=>p.Name, name);
+        return _collection.Find(filter).ToList();
     }
     
     public IEnumerable<Contact>? FindAllByPhone(string number)
     {
-        _dataSource.FindAllByField("phone", number);
-        
-        return null;
+        var filter = Builders<Contact>.Filter.All(nameof(Contact.Phones), number);
+        return _collection.Find(filter).ToList();
     }
     
     public IEnumerable<Contact>? FindAllByComment(string comment)
     {
-        _dataSource.FindAllByField("comment", comment);
-        
-        return null;
+        var filter = Builders<Contact>.Filter.All(nameof(Contact.Phones), comment);
+        return _collection.Find(filter).ToList();
     }
 
     public IEnumerable<Contact>? GetAll()
     {
-        _dataSource.GetAll();
-        
-        return null;
+        return _collection.Find(new BsonDocument()).ToList();
     }
 }

@@ -1,34 +1,41 @@
-﻿using PhoneBook_v3.DAL;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using PhoneBook_v3.BL.Models;
 
 namespace PhoneBook_v3.BL;
 
 public partial class PhoneBook
 {
-    private readonly DataSourceBase _dataSource;
-
-    public PhoneBook(DataSourceBase dataSource)
+    private IMongoCollection<Contact> _collection;
+    
+    public PhoneBook(string connectionString)
     {
-        _dataSource = dataSource;
+        var client = new MongoClient(connectionString);
+        var database = client.GetDatabase("phonebook_db");
+        _collection = database.GetCollection<Contact>("phonebook");
     }
     
     public bool AddContact(Contact contact)
     {
-        _dataSource.Add();
-        
-        throw new NotImplementedException();
+        _collection.InsertOne(contact);
+        return true;
     }
     
     public bool UpdateContact(Contact contact)
     {
-        _dataSource.Update();
+        //_collection.FindOneAndReplace(new BsonDocument("_id", contact.Id), contact);
         
-        throw new NotImplementedException();
+        var filter = Builders<Contact>.Filter.Eq(p=>p.Id, contact.Id);
+        _collection.FindOneAndReplace(filter, contact);
+        
+        return true;
     }
     
     public bool DeleteContact(Contact contact)
     {
-        _dataSource.Delete();
-        
-        throw new NotImplementedException();
+        var filter = Builders<Contact>.Filter.Eq(p=>p.Id, contact.Id);
+        _collection.DeleteOne(filter);
+
+        return true;
     }
 }
