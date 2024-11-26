@@ -7,6 +7,8 @@ namespace PhoneBook_v3.GUI_Client.WindowModels;
 
 public class MainWindowModel : WindowModelBase
 {
+    #region Observable Properties
+
     private string? _searchText;
     public string? SearchText
     {
@@ -43,7 +45,6 @@ public class MainWindowModel : WindowModelBase
     }
     
     private Contact? _selectedContact;
-
     public Contact? SelectedContact
     {
         get => _selectedContact;
@@ -63,12 +64,20 @@ public class MainWindowModel : WindowModelBase
 
     public ObservableCollection<Contact> Contacts { get; init; } = [];
     public ObservableCollection<Phone> Phones { get; init; } = [];
-    
+
+    #endregion
+
+    #region Commands
+
     public ICommand CommandSearch { get; init; }
     public ICommand CommandSave { get; init; }
     public ICommand CommandDelete { get; init; }
     public ICommand CommandClear { get; init; }
     public ICommand CommandSearchTextIsEmpty { get; init; }
+
+    #endregion
+    
+    #region Constructors
 
     private readonly PhoneBook _phoneBook;
     
@@ -165,6 +174,10 @@ public class MainWindowModel : WindowModelBase
                 ObservableInit(collection);
             });
     }
+    
+    #endregion
+
+    #region Methods
 
     private void ObservableInit<T>(IEnumerable<T> collection)
     {
@@ -199,4 +212,6 @@ public class MainWindowModel : WindowModelBase
         
         Phones.Clear();
     }
+
+    #endregion
 }
