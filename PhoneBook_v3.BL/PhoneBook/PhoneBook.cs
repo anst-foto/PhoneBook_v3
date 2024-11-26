@@ -1,12 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using PhoneBook_v3.BL.Models;
 
 namespace PhoneBook_v3.BL;
 
 public partial class PhoneBook
 {
-    private IMongoCollection<Contact> _collection;
+    private readonly IMongoCollection<Contact> _collection;
     
     public PhoneBook(string connectionString)
     {
@@ -15,13 +14,13 @@ public partial class PhoneBook
         _collection = database.GetCollection<Contact>("phonebook");
     }
     
-    public bool AddContact(Contact contact)
+    public bool AddContact(Contact contact) //TODO
     {
         _collection.InsertOne(contact);
         return true;
     }
     
-    public bool UpdateContact(Contact contact)
+    public bool UpdateContact(Contact contact) //TODO
     {
         //_collection.FindOneAndReplace(new BsonDocument("_id", contact.Id), contact);
         
@@ -31,7 +30,7 @@ public partial class PhoneBook
         return true;
     }
     
-    public bool DeleteContact(Contact contact)
+    public bool DeleteContact(Contact contact) //TODO
     {
         var filter = Builders<Contact>.Filter.Eq(p=>p.Id, contact.Id);
         _collection.DeleteOne(filter);

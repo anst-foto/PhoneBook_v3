@@ -14,13 +14,13 @@ public partial class PhoneBook
     
     public IEnumerable<Contact>? FindAllByPhone(string number)
     {
-        var filter = Builders<Contact>.Filter.All(nameof(Contact.Phones), number); //BUG
+        var filter = Builders<Contact>.Filter.ElemMatch("Phones", Builders<Phone>.Filter.Eq(p=>p.Number, number));
         return _collection.Find(filter).ToList();
     }
     
     public IEnumerable<Contact>? FindAllByComment(string comment)
     {
-        var filter = Builders<Contact>.Filter.All("Phones", new BsonDocument{{ "Comment", comment }}); //BUG
+        var filter = Builders<Contact>.Filter.ElemMatch("Phones", Builders<Phone>.Filter.Eq(p=>p.Comment, comment));
         return _collection.Find(filter).ToList();
     }
 
